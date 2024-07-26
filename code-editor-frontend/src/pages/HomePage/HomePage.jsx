@@ -4,6 +4,10 @@ export default function HomePage(){
 return(
     <div className="Hompage">
     <Navbar/>
+    <form action="">
+
+        
+    </form>
     <Footer/>
 </div>
 
