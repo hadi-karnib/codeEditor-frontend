@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Login.css";
+import "./Register.css";
 import {
   Box,
   Text,
@@ -10,25 +10,25 @@ import {
   ButtonGroup,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handlelogin = () => {
-    console.log("login button clicked");
-    navigate("/home");
-    console.log(email, password);
+  const [username, setUsername] = useState("");
+  const handleRegister = () => {
+    console.log("Register button clicked");
+    navigate("/login");
+    console.log(username, email, password);
   };
   return (
-    <div className="LoginMainDiv">
+    <div className="RegisterMainDiv">
       <Box
         bg="#003354"
         w="27%"
-        h="50%"
+        h="60%"
         minW="300px"
         p={4}
         color="#051923"
@@ -38,8 +38,21 @@ const Login = () => {
         alignItems="center"
       >
         <Text fontSize="3xl" color="white" mb={10}>
-          Login
+          Register
         </Text>
+        <InputGroup w="75%" mb={5}>
+          <InputLeftElement pointerEvents="none" pr={4}>
+            <FontAwesomeIcon icon={faUser} color="#0582ca" />
+          </InputLeftElement>
+          <Input
+            variant="flushed"
+            placeholder="Username"
+            textColor="white"
+            pl={7}
+            mb={4}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </InputGroup>
         <InputGroup w="75%" mb={5}>
           <InputLeftElement pointerEvents="none" pr={4}>
             <FontAwesomeIcon icon={faEnvelope} color="#0582ca" />
@@ -67,12 +80,12 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </InputGroup>
-        <Button colorScheme="blue" w="75%" onClick={handlelogin}>
-          Login
+        <Button colorScheme="blue" w="75%" onClick={handleRegister}>
+          Register
         </Button>
       </Box>
     </div>
   );
 };
 
-export default Login;
+export default Register;
