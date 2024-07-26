@@ -1,4 +1,5 @@
 import "./LandingPage.css";
+import Footer from "../../components/footer/footer";
 import logo from "../../assets/logo.svg";
 import screen from "../../assets/screen_template.png";
 import fbIcon from "../../assets/facebookIcon.png";
@@ -36,14 +37,8 @@ export default function LandingPage() {
         <img src={screen} alt="Screen Template" />
       </div>
 
-      <footer>
-        <ul className="icon_list">
-          <li><img src={fbIcon} alt="Facebook Icon" /></li>
-          <li><img src={igIcon} alt="Instagram Icon" /></li>
-          <li><img src={XIcon} alt="X Icon" /></li>
-        </ul>
-        <p>Contact Us at CodraEditor@codra.com</p>
-      </footer>
+
+      <Footer/>
     </div>
   );
 }

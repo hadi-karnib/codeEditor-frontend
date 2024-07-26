@@ -1,0 +1,20 @@
+footer{
+    align-self: flex-end;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 200px;
+    margin-bottom: 70px;
+  }
+  footer .icon_list{
+    display: flex;
+    list-style: none;
+    gap:10px;
+    
+  }
+
+  footer .icon_list li{
+  }
+  footer p{
+    font-size: 1.5rem;
+  }
