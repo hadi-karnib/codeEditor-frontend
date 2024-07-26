@@ -7,7 +7,8 @@ import {
   InputGroup,
   InputLeftElement,
   Button,
-  ButtonGroup,
+  FormControl,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
@@ -17,12 +18,23 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
 
-  const handlelogin = () => {
+  const handleLogin = () => {
     console.log("login button clicked");
-    navigate("/home");
+    if (!validateEmail(email)) {
+      setEmailError("Invalid email address");
+      return;
+    }
     console.log(email, password);
+    navigate("/home");
   };
+
+  const validateEmail = (email) => {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return re.test(String(email).toLowerCase());
+  };
+
   return (
     <div className="LoginMainDiv">
       <Box
@@ -40,19 +52,26 @@ const Login = () => {
         <Text fontSize="3xl" color="white" mb={10}>
           Login
         </Text>
-        <InputGroup w="75%" mb={5}>
-          <InputLeftElement pointerEvents="none" pr={4}>
-            <FontAwesomeIcon icon={faEnvelope} color="#0582ca" />
-          </InputLeftElement>
-          <Input
-            variant="flushed"
-            placeholder="Email"
-            textColor="white"
-            pl={7}
-            mb={4}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </InputGroup>
+        <FormControl isInvalid={!!emailError} w="75%" mb={5}>
+          <InputGroup>
+            <InputLeftElement pointerEvents="none" pr={4}>
+              <FontAwesomeIcon icon={faEnvelope} color="#0582ca" />
+            </InputLeftElement>
+            <Input
+              variant="flushed"
+              placeholder="Email"
+              textColor="white"
+              pl={7}
+              mb={4}
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEmailError("");
+              }}
+            />
+          </InputGroup>
+          {emailError && <FormErrorMessage>{emailError}</FormErrorMessage>}
+        </FormControl>
         <InputGroup w="75%" mb={5}>
           <InputLeftElement pointerEvents="none" pr={4}>
             <FontAwesomeIcon icon={faLock} color="#0582ca" />
@@ -64,10 +83,11 @@ const Login = () => {
             pl={7}
             mb={4}
             type="password"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </InputGroup>
-        <Button colorScheme="blue" w="75%" onClick={handlelogin}>
+        <Button colorScheme="blue" w="75%" onClick={handleLogin}>
           Login
         </Button>
       </Box>
