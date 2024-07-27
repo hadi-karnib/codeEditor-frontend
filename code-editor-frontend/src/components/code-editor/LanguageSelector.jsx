@@ -22,10 +22,10 @@ const LanguageSelector = ({ language, onSelect }) => {
       alignItems="flex-start"
       mb={4}
     >
-      <Text mb={2} fontSize="large" color={"#0582ca"} alignSelf="flex-start">
+      <Text mb={2} fontSize="lg" color={"#0582ca"} alignSelf="flex-start">
         Language:
       </Text>
-      <Menu>
+      <Menu isLazy>
         <MenuButton
           as={Button}
           bgColor={"#0582ca"}
@@ -34,13 +34,22 @@ const LanguageSelector = ({ language, onSelect }) => {
         >
           {language}
         </MenuButton>
-        <MenuList>
-          {languages.map(([language, version]) => (
-            <MenuItem key={language} onClick={() => onSelect(language)}>
-              {language}
+        <MenuList bgColor={"gray.400"}>
+          {languages.map(([lang, version]) => (
+            <MenuItem
+              key={lang}
+              color={lang === language ? "#0582ca" : ""}
+              bg={lang === language ? "gray.700" : "gray.400"}
+              _hover={{
+                bg: lang === language ? "gray.700" : "gray.500",
+                color: lang === language ? "#0582ca" : "#fff",
+              }}
+              onClick={() => onSelect(lang)}
+            >
+              {lang}
               &nbsp;
               <Text as="span" color="gray.600" fontSize="sm">
-                {version}
+                ({version})
               </Text>
             </MenuItem>
           ))}
