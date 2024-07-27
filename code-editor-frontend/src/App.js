@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
 import Login from "./pages/Login/Login";
+import CodeEditor from "./pages/CodeEditor/CodeEditorPage";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -17,6 +18,7 @@ const router = createBrowserRouter(
       <Route path="/home" element={<HomePage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/editor" element={<CodeEditor />} />
     </>
   )
 );
