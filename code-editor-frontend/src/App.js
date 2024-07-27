@@ -12,18 +12,18 @@ import {
 import { RouterProvider } from "react-router-dom";
 import Login from "./pages/Login/Login";
 import CodeEditor from "./pages/CodeEditor/CodeEditorPage";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<LandingPage />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/messages" element={<Messages/>} />
-      {/* <Route path="/editor" element={<Editor/>} /> */}
-
-
+      <Route path="/messages" element={<Messages />} />
       <Route path="/register" element={<Register />} />
       <Route path="/editor" element={<CodeEditor />} />
+      <Route path="/adminDashboard" element={<AdminDashboard />} />
     </>
   )
 );
