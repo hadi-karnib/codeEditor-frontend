@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Pusher from "pusher-js";
-import "./Messages.css";
+import "./MessagesStyle.css";
 import Navbar from "../../components/navbar/navbar";
 
 const pusher = new Pusher("YOUR_PUSHER_APP_KEY", {
   cluster: "YOUR_PUSHER_CLUSTER"
 });
 
-export default function Messages() {
+export default function MessagesCore() {
   const [contacts, setContacts] = useState([]);
   const [activeContact, setActiveContact] = useState(null);
   const [messages, setMessages] = useState([]);

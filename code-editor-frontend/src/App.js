@@ -2,7 +2,7 @@ import "./App.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import HomePage from "./pages/HomePage/HomePage";
-import Messages from "./pages/Messages/Messages";
+import Messages from "./pages/Messages/MessagesCore";
 import {
   createBrowserRouter,
   createRoutesFromElements,
