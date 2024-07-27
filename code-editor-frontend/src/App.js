@@ -3,6 +3,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import HomePage from "./pages/HomePage/HomePage";
 import Messages from "./pages/Messages/MessagesCore";
+import Register from "./pages/Register/Register";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -10,6 +11,7 @@ import {
 } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
 import Login from "./pages/Login/Login";
+import CodeEditor from "./pages/CodeEditor/CodeEditorPage";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -20,6 +22,8 @@ const router = createBrowserRouter(
       {/* <Route path="/editor" element={<Editor/>} /> */}
 
 
+      <Route path="/register" element={<Register />} />
+      <Route path="/editor" element={<CodeEditor />} />
     </>
   )
 );
