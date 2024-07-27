@@ -4,7 +4,7 @@ footer{
     justify-content: center;
     align-items: center;
     gap: 200px;
-    margin-bottom: 70px;
+    /* padding-bottom: 70px; */
   }
   footer .icon_list{
     display: flex;
@@ -13,8 +13,8 @@ footer{
     
   }
 
-  footer .icon_list li{
-  }
+  /* footer .icon_list li{
+  } */
   footer p{
     font-size: 1.5rem;
   }

@@ -2,6 +2,7 @@ import "./App.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import HomePage from "./pages/HomePage/HomePage";
+import Messages from "./pages/Messages/Messages";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -15,6 +16,10 @@ const router = createBrowserRouter(
       <Route path="/" element={<LandingPage />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/messages" element={<Messages/>} />
+      {/* <Route path="/editor" element={<Editor/>} /> */}
+
+
     </>
   )
 );
