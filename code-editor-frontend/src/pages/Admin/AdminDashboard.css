@@ -1,0 +1,62 @@
+.adminPanelDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #051923 0%, #003354 100%);
+}
+.button-flex {
+  padding: 15px 45px;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+.tableUsers {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+/* Additional styles for the table to match the admin panel theme */
+.tableContainer {
+  border: 2px solid #0077cc; /* A border color that fits the gradient */
+  box-shadow: 0 8px 16px rgba(0, 51, 84, 0.25); /* Soft shadow for depth */
+  overflow: hidden; /* Ensures no overflow from the container */
+}
+
+.table {
+  width: 100%; /* Ensures the table fills the container */
+  border-collapse: collapse; /* Removes space between borders */
+}
+
+.th,
+.td {
+  text-align: left;
+  padding: 12px 20px;
+  color: #003354; /* Text color that stands out on a light background */
+  background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
+  border-bottom: 1px solid #0077cc; /* Line separating rows */
+}
+
+.thead,
+.tfoot {
+  background-color: #005488; /* Darker shade for header/footer */
+  color: #ffffff; /* White text for contrast */
+}
+
+.tableCaption {
+  padding: 10px;
+  color: #003354;
+  font-size: 1.2em;
+  text-align: center;
+  background-color: rgba(0, 83, 156, 0.9); /* A dark, translucent blue */
+}
+
+/* Hide scrollbar for cleaner look */
+::-webkit-scrollbar {
+  display: none;
+}
