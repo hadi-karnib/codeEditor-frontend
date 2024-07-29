@@ -18,13 +18,16 @@ const AdminNavbar = () => {
   const handleMessagesClick = () => {
     navigate("/messages");
   };
-
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
   return (
     <div>
       <nav>
         <img src={logo} alt="Logo" className="logo" />
         <h2>Welcome Admin</h2>
-        <button>Log out</button>
+        <button onClick={logout}>Log out</button>
       </nav>
     </div>
   );
