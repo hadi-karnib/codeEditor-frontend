@@ -1,39 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Pusher from "pusher-js";
 import "./Messages.css";
 import Navbar from "../../components/navbar/navbar";
-
-const pusher = new Pusher("YOUR_PUSHER_APP_KEY", {
-  cluster: "YOUR_PUSHER_CLUSTER"
-});
 
 export default function Messages() {
   const [contacts, setContacts] = useState([]);
   const [activeContact, setActiveContact] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-
-  useEffect(() => {
-    // Fetch contacts from your API or local storage
-    const fetchedContacts = [
-      { id: 1, name: "Alice" },
-      { id: 2, name: "Bob" },
-      { id: 3, name: "Amigo" },
-    ];
-    setContacts(fetchedContacts);
-
-    // Subscribe to Pusher channel
-    const channel = pusher.subscribe("messages-channel");
-    channel.bind("new-message", (data) => {
-      if (data.contactId === activeContact?.id) {
-        setMessages((prevMessages) => [...prevMessages, data.message]);
-      }
-    });
-
-    return () => {
-      pusher.unsubscribe("messages-channel");
-    };
-  }, [activeContact]);
 
   const handleContactClick = (contact) => {
     setActiveContact(contact);
@@ -60,7 +33,9 @@ export default function Messages() {
           {contacts.map((contact) => (
             <div
               key={contact.id}
-              className={`contact ${activeContact?.id === contact.id ? "active" : ""}`}
+              className={`contact ${
+                activeContact?.id === contact.id ? "active" : ""
+              }`}
               onClick={() => handleContactClick(contact)}
             >
               {contact.name}
@@ -73,7 +48,12 @@ export default function Messages() {
               <div className="chat-header">{activeContact.name}</div>
               <div className="chat-messages">
                 {messages.map((message, index) => (
-                  <div key={index} className={`chat-message ${message.sender === "You" ? "sent" : "received"}`}>
+                  <div
+                    key={index}
+                    className={`chat-message ${
+                      message.sender === "You" ? "sent" : "received"
+                    }`}
+                  >
                     <div className="message-sender">{message.sender}</div>
                     <div className="message-content">{message.content}</div>
                   </div>
@@ -90,7 +70,9 @@ export default function Messages() {
               </div>
             </>
           ) : (
-            <div className="no-active-contact">Select a contact to start chatting</div>
+            <div className="no-active-contact">
+              Select a contact to start chatting
+            </div>
           )}
         </div>
       </div>
