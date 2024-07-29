@@ -19,6 +19,10 @@ export default function Navbar() {
   const handleMessagesClick = () => {
     navigate("/messages");
   };
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   return (
     <nav>
@@ -39,7 +43,7 @@ export default function Navbar() {
         </li>
       </ul>
 
-      <button>Log out</button>
+      <button onClick={logout}>Log out</button>
     </nav>
   );
 }
