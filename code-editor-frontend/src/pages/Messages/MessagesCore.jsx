@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./Messages.css";
+import "./MessagesStyle.css";
 import Navbar from "../../components/navbar/navbar";
 
 export default function Messages() {
