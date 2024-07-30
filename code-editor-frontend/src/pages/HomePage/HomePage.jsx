@@ -6,9 +6,9 @@ import Navbar from "../../components/navbar/navbar";
 import Footer from "../../components/footer/footer";
 import "./HomePage.css";
 import { jwtDecode } from "jwt-decode";
-const STORAGE_KEY = "codeFiles";
+import axios from "axios";
 
-export default function HomePage() {
+const HomePage = () => {
   const [fileName, setFileName] = useState("");
   const [language, setLanguage] = useState("javascript");
   const [existingFiles, setExistingFiles] = useState([]);
@@ -28,14 +28,22 @@ export default function HomePage() {
       navigate("/login", { replace: true });
       return;
     }
+
+    fetchUserCodes(token);
   }, [navigate]);
 
-  useEffect(() => {
-    const storedFiles = localStorage.getItem(STORAGE_KEY);
-    if (storedFiles) {
-      setExistingFiles(JSON.parse(storedFiles));
+  const fetchUserCodes = async (token) => {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/userCodes", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setExistingFiles(response.data.data);
+    } catch (error) {
+      console.error("Error fetching user codes:", error);
     }
-  }, []);
+  };
 
   const handleFileNameChange = (e) => {
     setFileName(e.target.value);
@@ -46,12 +54,8 @@ export default function HomePage() {
     setFileName(`${e.target.value}-file`);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (fileName.trim() === "") {
-      alert("File name cannot be empty");
-      return;
-    }
 
     const existingFileIndex = existingFiles.findIndex(
       (file) => file.name === fileName
@@ -63,31 +67,60 @@ export default function HomePage() {
 
     setIsSubmitting(true);
 
-    const newFile = {
-      name: fileName,
-      language: language,
-      content: "",
-    };
+    const token = localStorage.getItem("token");
 
-    setTimeout(() => {
-      const updatedFiles = [...existingFiles, newFile];
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedFiles));
-      setExistingFiles(updatedFiles);
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/createCode",
+        {
+          language: language,
+          source_code: "//enter your code",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const newFile = response.data.data;
+      setExistingFiles((prevFiles) => [...prevFiles, newFile]);
 
       setIsModalOpen(false);
       setIsSubmitting(false);
-      navigate("/editor", { state: { fileName, language } });
-    }, 2000);
+      console.log("handle submit");
+      navigate("/editor", { state: { fileId: newFile.id } });
+    } catch (error) {
+      console.error("Error creating code file:", error);
+      setIsSubmitting(false);
+    }
   };
 
-  const handleDelete = (index) => {
-    const updatedFiles = existingFiles.filter((_, i) => i !== index);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedFiles));
-    setExistingFiles(updatedFiles);
+  const handleDelete = async (fileId, index) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      await axios.delete("http://127.0.0.1:8000/api/deleteCode", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          id: fileId,
+        },
+      });
+      setExistingFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    } catch (error) {
+      console.error("Error deleting code file:", error);
+    }
   };
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const handleCardClick = (fileId) => {
+    console.log(fileId);
+    navigate("/editor", { state: { fileId } });
   };
 
   return (
@@ -121,17 +154,7 @@ export default function HomePage() {
                     <option value="typescript">TypeScript</option>
                   </select>
                 </div>
-                <div className="form_input">
-                  <label htmlFor="fileName">File Nam:</label>
-                  <input
-                    type="text"
-                    id="fileName"
-                    value={fileName}
-                    onChange={handleFileNameChange}
-                    required
-                    className="file-name-input"
-                  />
-                </div>
+                <div className="form_input"></div>
                 <button
                   type="submit"
                   className={`submit-button ${
@@ -148,9 +171,9 @@ export default function HomePage() {
           {existingFiles.map((file, index) => (
             <Cobra_head_item
               key={index}
-              name={file.name}
               language={file.language}
-              onDelete={() => handleDelete(index)}
+              onDelete={() => handleDelete(file.id, index)}
+              onClick={() => handleCardClick(file.id)}
             />
           ))}
         </div>
@@ -158,4 +181,6 @@ export default function HomePage() {
       <Footer />
     </div>
   );
-}
+};
+
+export default HomePage;

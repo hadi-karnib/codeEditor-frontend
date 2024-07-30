@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Register.css";
 import {
   Box,
@@ -23,6 +23,11 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [emailError, setEmailError] = useState("");
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem("token");
+    };
+  }, []);
 
   const handleRegister = async () => {
     console.log("Register button clicked");

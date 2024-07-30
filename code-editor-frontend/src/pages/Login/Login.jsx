@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Login.css";
 import {
   Box,
@@ -23,6 +23,9 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
+  useEffect(() => {
+    localStorage.removeItem("token");
+  }, []);
 
   const handleLogin = async () => {
     console.log("login button clicked");

@@ -1,24 +1,20 @@
-import React from 'react';
-import { Button } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 
-export default function Cobra_head_item({ name, language, onDelete }) {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate("/editor",{ state: { name, language } });
-  };
-
+const Cobra_head_item = ({ name, language, onDelete, onClick }) => {
   return (
-    <div className="cobra-head-item" onClick={handleClick}>
-      <h1>{name}</h1>
-      <h2>{language}</h2>
-      <Button colorScheme="red" onClick={(e) => {
-        e.stopPropagation();
-        onDelete();
-      }}>
+    <div className="cobra-head-item" onClick={onClick}>
+      <h3>{name}</h3>
+      <p>{language}</p>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onDelete();
+        }}
+      >
         Delete
-      </Button>
+      </button>
     </div>
   );
-}
+};
+
+export default Cobra_head_item;

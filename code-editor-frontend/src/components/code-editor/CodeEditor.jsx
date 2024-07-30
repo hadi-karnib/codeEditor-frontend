@@ -6,8 +6,7 @@ import { CODE_SNIPPETS } from "../../constants";
 import Output from "./Output";
 import axios from "axios";
 
-const CodeEditor = () => {
-  const id = "4";
+const CodeEditor = ({ fileId }) => {
   const [value, setValue] = useState("");
   const editorRef = useRef();
   const [language, setLanguage] = useState("python");
@@ -17,7 +16,7 @@ const CodeEditor = () => {
       try {
         const response = await axios.post(
           "http://127.0.0.1:8000/api/getCode",
-          { id: id },
+          { id: fileId },
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -31,7 +30,7 @@ const CodeEditor = () => {
       }
     };
     getCode();
-  }, [id]);
+  }, [fileId]);
 
   const onMount = (editor) => {
     editorRef.current = editor;
@@ -52,7 +51,7 @@ const CodeEditor = () => {
       const response = await axios.patch(
         "http://127.0.0.1:8000/api/updateCode",
         {
-          id: id, // Include the ID here
+          id: fileId, // Include the ID here
           source_code: sourceCode,
           language: language,
         },
