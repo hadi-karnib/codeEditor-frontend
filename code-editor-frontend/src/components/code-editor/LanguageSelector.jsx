@@ -21,6 +21,7 @@ const LanguageSelector = ({ language, onSelect }) => {
       justifyContent="center"
       alignItems="flex-start"
       mb={4}
+      w="100%"
     >
       <Text mb={2} fontSize="lg" color={"#0582ca"} alignSelf="flex-start">
         Language:

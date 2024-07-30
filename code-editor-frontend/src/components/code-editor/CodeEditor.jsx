@@ -72,12 +72,18 @@ const CodeEditor = () => {
     <Box h={"100%"}>
       <HStack spacing={4} px={"55px"}>
         <Box w="50%" h={"100%"}>
-          <div style={{ display: "flex", gap: "20px", width: "100%" }}>
+          <div
+            style={{
+              display: "flex",
+              gap: "20px",
+              width: "100%",
+            }}
+          >
             <Button
               variant="outline"
               color="#0582ca"
               colorScheme="green"
-              mb={4}
+              mt={9}
               onClick={submitCode}
             >
               Submit

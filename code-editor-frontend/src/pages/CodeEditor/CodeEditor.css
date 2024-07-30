@@ -5,5 +5,5 @@
   width: 100vw;
   height: 100vh;
   background: linear-gradient(135deg, #051923 0%, #003354 100%);
-  overflow-y: hidden;
+  overflow-y: scroll;
 }
