@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { addDoc, collection, onSnapshot, query, serverTimestamp, where } from 'firebase/firestore';
+import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, where } from 'firebase/firestore';
 import { auth, db } from "../firebase-config";
 
 export default function Chat({ room }) { // Correctly destructuring room prop
@@ -13,9 +13,9 @@ export default function Chat({ room }) { // Correctly destructuring room prop
     // useeffect for rendering messages from different users on same room
 
     useEffect(()=>{
-        const querryMessages = query(messagesRef,where("room","==",room))
-
-        onSnapshot(querryMessages,(snapshot)=>{
+        const querryMessages = query(messagesRef,where("room","==",room),
+        orderBy("createdAt"))
+        const unsuscribe = onSnapshot(querryMessages,(snapshot)=>{
             let messages = [];
 
             snapshot.forEach((doc)=>{
@@ -25,7 +25,10 @@ export default function Chat({ room }) { // Correctly destructuring room prop
 
             setMessages(messages)
 
-        })
+        });
+
+        return()=> unsuscribe();
+
 
     },[])
 
@@ -50,9 +53,18 @@ export default function Chat({ room }) { // Correctly destructuring room prop
 
     return (
         <div className="chat-app">
-<div>
+            <div className="header">
+                <h1>welcome to : {room.toUpperCase()}</h1>
+            </div>
+<div className="messages">
   {messages.map((message) => (
-    <h1 key={message.id}>{message.text}</h1>
+    // <h1 key={message.id}>{message.text}</h1>
+    <div className="message" key={message.id}>
+        <span className="user"> {message.user}</span>
+        {message.text}
+        {/* *
+        {message.createdAt.toString()} */}
+    </div>
   ))}
 </div>
 
