@@ -4,7 +4,8 @@ import addIcon from "../../assets/add.svg";
 import Cobra_head_item from "./Cobra_head_item";
 import Navbar from "../../components/navbar/navbar";
 import Footer from "../../components/footer/footer";
-import "./HomePage.css"
+import "./HomePage.css";
+import { jwtDecode } from "jwt-decode";
 const STORAGE_KEY = "codeFiles";
 
 export default function HomePage() {
@@ -14,6 +15,20 @@ export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login", { replace: true });
+      return;
+    }
+
+    const decodedToken = jwtDecode(token);
+    if (decodedToken.role !== "user" && decodedToken.role !== "admin") {
+      navigate("/login", { replace: true });
+      return;
+    }
+  }, [navigate]);
 
   useEffect(() => {
     const storedFiles = localStorage.getItem(STORAGE_KEY);
@@ -51,7 +66,7 @@ export default function HomePage() {
     const newFile = {
       name: fileName,
       language: language,
-      content: ""
+      content: "",
     };
 
     setTimeout(() => {
@@ -77,72 +92,70 @@ export default function HomePage() {
 
   return (
     <div className="Home_page_container">
-        <Navbar/>
-            <div className="HomePage">
-      <button onClick={toggleModal} className="create-button">
-        Launch a Codra
-        <img src={addIcon} alt="" className="add_icon" />
-      </button>
-      {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={toggleModal}>
-              &times;
-            </span>
-            <form onSubmit={handleSubmit} className="create-form">
-              <div className="form_input">
-                <label htmlFor="language">Language</label>
-                <select
-                  id="language"
-                  value={language}
-                  onChange={handleLanguageChange}
-                  className="language-select"
+      <Navbar />
+      <div className="HomePage">
+        <button onClick={toggleModal} className="create-button">
+          Launch a Codra
+          <img src={addIcon} alt="" className="add_icon" />
+        </button>
+        {isModalOpen && (
+          <div className="modal">
+            <div className="modal-content">
+              <span className="close" onClick={toggleModal}>
+                &times;
+              </span>
+              <form onSubmit={handleSubmit} className="create-form">
+                <div className="form_input">
+                  <label htmlFor="language">Language</label>
+                  <select
+                    id="language"
+                    value={language}
+                    onChange={handleLanguageChange}
+                    className="language-select"
+                  >
+                    <option value="javascript">JavaScript</option>
+                    <option value="python">Python</option>
+                    <option value="java">Java</option>
+                    <option value="csharp">C#</option>
+                    <option value="cpp">C++</option>
+                    <option value="typescript">TypeScript</option>
+                  </select>
+                </div>
+                <div className="form_input">
+                  <label htmlFor="fileName">File Nam:</label>
+                  <input
+                    type="text"
+                    id="fileName"
+                    value={fileName}
+                    onChange={handleFileNameChange}
+                    required
+                    className="file-name-input"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className={`submit-button ${
+                    isSubmitting ? "submitting" : ""
+                  }`}
                 >
-                  <option value="javascript">JavaScript</option>
-                  <option value="python">Python</option>
-                  <option value="java">Java</option>
-                  <option value="csharp">C#</option>
-                  <option value="cpp">C++</option>
-                  <option value="typescript">TypeScript</option>
-                </select>
-              </div>
-              <div className="form_input">
-                <label htmlFor="fileName">File Nam:</label>
-                <input
-                  type="text"
-                  id="fileName"
-                  value={fileName}
-                  onChange={handleFileNameChange}
-                  required
-                  className="file-name-input"
-                />
-              </div>
-              <button
-                type="submit"
-                className={`submit-button ${isSubmitting ? "submitting" : ""}`}
-              >
-                {isSubmitting ? "Launching..." : "Submit"}
-              </button>
-            </form>
+                  {isSubmitting ? "Launching..." : "Submit"}
+                </button>
+              </form>
+            </div>
           </div>
+        )}
+        <div className="cobras_head_list">
+          {existingFiles.map((file, index) => (
+            <Cobra_head_item
+              key={index}
+              name={file.name}
+              language={file.language}
+              onDelete={() => handleDelete(index)}
+            />
+          ))}
         </div>
-      )}
-      <div className="cobras_head_list">
-        {existingFiles.map((file, index) => (
-          <Cobra_head_item
-            
-            key={index}
-            name={file.name}
-            language={file.language}
-            onDelete={() => handleDelete(index)}
-          />
-        ))}
       </div>
-      
+      <Footer />
     </div>
-    <Footer/>
-
-    </div>
-
   );
 }
