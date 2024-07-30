@@ -1,81 +1,65 @@
+
+import { useState, useRef } from "react";
+import { Auth } from "./components/Auth";
 import React, { useState, useEffect } from "react";
 import "./MessagesStyle.css";
+import Cookies from 'universal-cookie';
+import Chat from "./components/Chat";
 import Navbar from "../../components/navbar/navbar";
+import Footer from "../../components/footer/footer";
+import {signOut} from 'firebase/auth';
+import {  auth} from "./firebase-config";
+import illustration from "../../assets/message_illustration.svg"
+const cookies = new Cookies();
 
-export default function Messages() {
-  const [contacts, setContacts] = useState([]);
-  const [activeContact, setActiveContact] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
 
-  const handleContactClick = (contact) => {
-    setActiveContact(contact);
-    // Simulate fetching messages for the active contact from your API or local storage
-    const fetchedMessages = [
-      { sender: contact.name, content: "Hi there!" },
-      { sender: "You", content: "Hello!" },
-    ];
-    setMessages(fetchedMessages);
-  };
+export default function MessageCore() {
+    const [isAuth, setIsAuth] = useState(cookies.get("auth-token"));
+    const [room, setRoom] = useState("");
+    const roomInputRef = useRef(null);
 
-  const handleSendMessage = () => {
-    if (newMessage.trim() === "") return;
-    const message = { sender: "You", content: newMessage };
-    setMessages((prevMessages) => [...prevMessages, message]);
-    setNewMessage("");
-  };
 
-  return (
-    <div className="pagecontainer">
-      <Navbar />
-      <div className="Messages">
-        <div className="contacts">
-          {contacts.map((contact) => (
-            <div
-              key={contact.id}
-              className={`contact ${
-                activeContact?.id === contact.id ? "active" : ""
-              }`}
-              onClick={() => handleContactClick(contact)}
-            >
-              {contact.name}
+    const signUserOut = async () => {
+        await signOut(auth);
+        cookies.remove("auth-token");
+        setIsAuth(false);
+        setRoom(null);
+    };
+
+    if (!isAuth) {
+        return (
+            <div>
+                <Auth setIsAuth={setIsAuth} />
             </div>
-          ))}
-        </div>
-        <div className="chat">
-          {activeContact ? (
-            <>
-              <div className="chat-header">{activeContact.name}</div>
-              <div className="chat-messages">
-                {messages.map((message, index) => (
-                  <div
-                    key={index}
-                    className={`chat-message ${
-                      message.sender === "You" ? "sent" : "received"
-                    }`}
-                  >
-                    <div className="message-sender">{message.sender}</div>
-                    <div className="message-content">{message.content}</div>
-                  </div>
-                ))}
-              </div>
-              <div className="chat-input">
-                <input
-                  type="text"
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  placeholder="Type a message"
-                />
-                <button onClick={handleSendMessage}>Send</button>
-              </div>
-            </>
-          ) : (
-            <div className="no-active-contact">
-              Select a contact to start chatting
+        );
+    }
+
+    const handleEnterChat = () => {
+        setRoom(roomInputRef.current.value);
+    };
+
+    return (
+        <div className="messenger_page">
+          <Navbar/>
+            
+          <div className="messenger_container">
+
+
+          {room ? (
+                <Chat room={room} />
+            ) : (
+                <div className="room">
+                    <input type="text" ref={roomInputRef} placeholder="Enter Your Room" className="room_text"/>
+
+                    <button className="add_chat" onClick={handleEnterChat}>Enter Chat</button>
+                </div>
+            )}
+
+            <div className="sign-out">
+                <button color="black" onClick={signUserOut}>Sign out</button>
             </div>
-          )}
+          </div>
+            <Footer/>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
