@@ -1,5 +1,7 @@
+
 import { useState, useRef } from "react";
 import { Auth } from "./components/Auth";
+import React, { useState, useEffect } from "react";
 import "./MessagesStyle.css";
 import Cookies from 'universal-cookie';
 import Chat from "./components/Chat";
