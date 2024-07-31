@@ -100,22 +100,46 @@ body {
 /* Auth Component Styles */
 .auth {
   text-align: center;
-  margin-top: 100px;
+  min-height: 100vh;
+  background-color: #051923;
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  width: 100%;
 }
 
+.Auth_page{
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+align-items: center;  
+}
 .auth p {
   font-size: 20px;
   margin-bottom: 20px;
 }
 
 .auth button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #1e3a5f;
-  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0582CA;
+  color: #fff;
+  font-size: 1.2rem;
+  letter-spacing: 1.5px;
+  font-weight: bold;
   border: none;
+  border-radius: 20px;
+  padding:10px 50px;
   cursor: pointer;
-  border-radius: 6px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 20px rgba(5, 130,202, 0.5);
+  width: 400px;
+  align-self: center;
+
 }
 
 .auth button:hover {
