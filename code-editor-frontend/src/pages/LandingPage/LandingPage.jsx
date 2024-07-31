@@ -11,7 +11,7 @@ export default function LandingPage() {
   const navigate = useNavigate();
 
   const handleSignUpClick = () => {
-    navigate("/sign-up");
+    navigate("/register");
   };
 
   const handleLoginClick = () => {
