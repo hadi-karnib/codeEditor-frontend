@@ -1,20 +1,20 @@
 // SignIn.js
 import React from "react";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, GithubAuthProvider, signInWithPopup } from "firebase/auth";
 
 export default function SignIn() {
-  const signInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
+  const signInWithGithub = async () => {
+    const provider = new GithubAuthProvider()
     try {
       await signInWithPopup(getAuth(), provider);
     } catch (error) {
-      console.error("Error signing in with Google:", error);
+      console.error("Error signing in with Github:", error);
     }
   };
 
   return (
-    <button onClick={signInWithGoogle}>
-      Sign in with Google
+    <button onClick={signInWithGithub}>
+      Sign in with Github
     </button>
   );
 }
