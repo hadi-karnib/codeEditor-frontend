@@ -13,9 +13,9 @@ export const Auth = ({ setIsAuth }) => {
       const result = await signInWithPopup(getAuth(), provider);
       console.log(result.user.reloadUserInfo.screenName);
       const token = await result.user.getIdToken(); // Get the GitHub token
-      const user = result.user;
+      const user = result.user.reloadUserInfo.screenName;
       cookies.set("auth-token", token); // Store the token in cookies
-      cookies.set("user-name", user.displayName); // Store the user name in cookies
+      cookies.set("user-name", user); // Store the user name in cookies
       setIsAuth(true); // Set the authentication state
     } catch (error) {
       console.error("Error signing in with GitHub:", error);
@@ -23,11 +23,16 @@ export const Auth = ({ setIsAuth }) => {
   };
 
   return (
-    <div className="auth">
+    <div className="Auth_page">
       <Navbar />
+
+          <div className="auth">
       <p>Sign in with GitHub to continue</p>
       <button onClick={signInWithGithub}>Sign in with GitHub</button>
-      <Footer />
     </div>
+    <Footer />
+
+    </div>
+
   );
 };
