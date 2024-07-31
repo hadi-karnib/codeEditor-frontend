@@ -1,0 +1,67 @@
+.adminPanelDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #051923 0%, #003354 100%);
+}
+
+.button-flex {
+  padding: 15px 45px;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.tableUsers {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tableContainer {
+  box-shadow: 0 8px 16px rgba(0, 51, 84, 0.25);
+  overflow: hidden;
+  background: rgba(
+    5,
+    25,
+    35,
+    0.9
+  ); /* Darker background for better theme integration */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.th,
+.td {
+  text-align: left;
+  padding: 12px 20px;
+  color: #ffffff; /* Increased contrast for text */
+  background-color: rgba(53, 151, 208, 0.6); /* Darker cell background */
+  border-bottom: 1px solid #0077cc;
+}
+
+.thead,
+.tfoot {
+  background-color: #005488;
+  color: #ffffff;
+}
+
+.tableCaption {
+  padding: 10px;
+  color: #ffffff; /* Brighter text for visibility */
+  font-size: 1.2em;
+  text-align: center;
+  background-color: rgba(
+    0,
+    53,
+    84,
+    0.9
+  ); /* Darker and more consistent with the theme */
+}

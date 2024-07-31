@@ -1,0 +1,9 @@
+/* Login.css */
+.LoginMainDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #051923 0%, #003354 100%);
+}
