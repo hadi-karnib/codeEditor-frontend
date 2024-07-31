@@ -1,9 +1,9 @@
 import React from "react";
+import "./cobraHeader.css"; // Ensure the CSS file is imported
 
-const Cobra_head_item = ({ name, language, onDelete, onClick }) => {
+const Cobra_head_item = ({ language, onDelete, onClick, onDownload }) => {
   return (
     <div className="cobra-head-item" onClick={onClick}>
-      <h3>{name}</h3>
       <p>{language}</p>
       <button
         onClick={(e) => {
@@ -12,6 +12,15 @@ const Cobra_head_item = ({ name, language, onDelete, onClick }) => {
         }}
       >
         Delete
+      </button>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onDownload();
+        }}
+        className="download-button" // Apply the CSS class here
+      >
+        Download
       </button>
     </div>
   );

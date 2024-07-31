@@ -88,7 +88,6 @@ const HomePage = () => {
 
       setIsModalOpen(false);
       setIsSubmitting(false);
-      console.log("handle submit");
       navigate("/editor", { state: { fileId: newFile.id } });
     } catch (error) {
       console.error("Error creating code file:", error);
@@ -119,10 +118,54 @@ const HomePage = () => {
   };
 
   const handleCardClick = (fileId) => {
-    console.log(fileId);
     navigate("/editor", { state: { fileId } });
   };
 
+  const handleDownload = async (fileId) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.post(
+        `http://127.0.0.1:8000/api/getCode`,
+        { id: fileId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const { source_code, language } = response.data.data;
+      const blob = new Blob([source_code], { type: "text/plain" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${fileId}.${getExtension(language)}`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading code file:", error);
+    }
+  };
+
+  const getExtension = (language) => {
+    switch (language) {
+      case "python":
+        return "py";
+      case "php":
+        return "php";
+      case "csharp":
+        return "cs";
+      case "javascript":
+        return "js";
+      case "typescript":
+        return "ts";
+      case "java":
+        return "java";
+      default:
+        return "txt";
+    }
+  };
   return (
     <div className="Home_page_container">
       <Navbar />
@@ -174,6 +217,7 @@ const HomePage = () => {
               language={file.language}
               onDelete={() => handleDelete(file.id, index)}
               onClick={() => handleCardClick(file.id)}
+              onDownload={() => handleDownload(file.id)}
             />
           ))}
         </div>
