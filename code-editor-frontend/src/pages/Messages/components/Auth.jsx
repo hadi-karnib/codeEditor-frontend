@@ -1,6 +1,8 @@
 import {auth,provider} from "../firebase-config.js";
 import {signInWithPopup} from 'firebase/auth';
 import Cookies from 'universal-cookie';
+import Navbar from "../../../components/navbar/navbar.jsx";
+import Footer from "../../../components/footer/footer.jsx";
 const cookies = new Cookies();
 export const Auth = (props)=>{
     const  {setIsAuth}=props;
@@ -18,12 +20,14 @@ export const Auth = (props)=>{
     }
     return (
         <div className="auth">
+            <Navbar/>
                 <p>
                     Sign In with Google TO Continue
                 </p>
                 <button onClick={signInWithGoogle}> 
                     Sign In With
                 </button>
+                <Footer/>
         </div>
     )
     
