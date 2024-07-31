@@ -5,6 +5,9 @@ import LanguageSelector from "../../components/code-editor/LanguageSelector";
 import { CODE_SNIPPETS } from "../../constants";
 import Output from "./Output";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import fetchAICompletion from "./copilot";
 
 const CodeEditor = ({ fileId }) => {
   const [value, setValue] = useState("");
@@ -34,6 +37,39 @@ const CodeEditor = ({ fileId }) => {
 
   const onMount = (editor) => {
     editorRef.current = editor;
+    editor.getModel().onDidChangeContent(async (event) => {
+      const changes = event.changes;
+      const lastChange = changes[changes.length - 1];
+      const range = lastChange.range;
+      const lineContent = editor.getModel().getLineContent(range.endLineNumber);
+
+      if (lineContent.trim().startsWith("///")) {
+        const command = lineContent.trim().substring(3).trim(); // Adjusted index
+        console.log("Command to process:", command); // Debug log
+        if (command.length > 0) {
+          const completion = await fetchAICompletion(command);
+          console.log("AI Completion:", completion); // Debug log
+          if (completion) {
+            editor.getModel().applyEdits([
+              {
+                range: {
+                  startLineNumber: range.endLineNumber,
+                  startColumn: 1,
+                  endLineNumber: range.endLineNumber,
+                  endColumn: lineContent.length + 1,
+                },
+                text: completion,
+              },
+            ]);
+            editor.setPosition({
+              lineNumber: range.endLineNumber + 1,
+              column: 1,
+            });
+            editor.focus();
+          }
+        }
+      }
+    });
     editor.focus();
   };
 
@@ -62,13 +98,33 @@ const CodeEditor = ({ fileId }) => {
         }
       );
       console.log(response.data);
+      toast.success("file updated successfully!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
     } catch (error) {
       console.error("Error updating code:", error);
+      toast.error("file not updated!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
     }
   };
 
   return (
     <Box h={"100%"}>
+      <ToastContainer />
+
       <HStack spacing={4} px={"55px"}>
         <Box w="50%" h={"100%"}>
           <div

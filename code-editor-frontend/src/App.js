@@ -13,7 +13,6 @@ import { RouterProvider } from "react-router-dom";
 import Login from "./pages/Login/Login";
 import CodeEditor from "./pages/CodeEditor/CodeEditorPage";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>

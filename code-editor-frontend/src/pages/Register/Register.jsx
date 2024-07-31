@@ -24,9 +24,7 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [emailError, setEmailError] = useState("");
   useEffect(() => {
-    return () => {
-      localStorage.removeItem("token");
-    };
+    localStorage.removeItem("token");
   }, []);
 
   const handleRegister = async () => {
@@ -67,7 +65,9 @@ const Register = () => {
             draggable: true,
             theme: "colored",
           });
-          navigate("/home"); // Redirect to home page
+          setTimeout(() => {
+            navigate("/home");
+          }, 1000); // 1000 milliseconds = 1 second
         }
       } else {
         toast.error("Registration failed: " + data.message, {
